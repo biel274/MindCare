@@ -1,0 +1,1200 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saúde Mental - MindCare</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .phone-container {
+            width: 440px;
+            height: 956px;
+            background: white;
+            border-radius: 40px;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .screen {
+            width: 100%;
+            height: 100%;
+            display: none;
+            flex-direction: column;
+            position: absolute;
+            top: 0;
+            left: 0;
+            background: white;
+            overflow-y: auto;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .screen.active {
+            display: flex;
+        }
+
+        /* Tela de Login - Frame 2 */
+        .login-screen {
+            padding: 80px 30px 40px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .brain-logo {
+            width: 200px;
+            height: 200px;
+            margin-bottom: 50px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .brain-logo svg {
+            width: 100%;
+            height: 100%;
+            filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.1));
+        }
+
+        .login-card {
+            background: white;
+            border-radius: 30px;
+            padding: 40px 30px;
+            width: 100%;
+            max-width: 382px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .login-title {
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #000;
+        }
+
+        .login-subtitle {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 16px 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 20px;
+            font-size: 16px;
+            transition: all 0.3s;
+            background: #f8f8f8;
+        }
+
+        .input-field:focus {
+            outline: none;
+            border-color: #80ded9;
+            background: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(128, 222, 217, 0.2);
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 20px 0;
+            font-size: 16px;
+            color: #333;
+        }
+
+        .remember-me input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            width: 100%;
+            padding: 16px;
+            background: #d9d9d9;
+            border: none;
+            border-radius: 20px;
+            font-size: 20px;
+            color: #000;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 400;
+        }
+
+        .btn-primary:hover {
+            background: #80ded9;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(128, 222, 217, 0.3);
+        }
+
+        .link-text {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 16px;
+            color: #666;
+        }
+
+        .link-text a {
+            color: #326771;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        /* Tela de Registro - Frame 3, 11, 12 */
+        .register-screen {
+            padding: 80px 30px 40px;
+            align-items: center;
+        }
+
+        .progress-indicator {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 50px;
+        }
+
+        .progress-step {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: #aaaaaa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: 600;
+            color: #000;
+            transition: all 0.3s;
+        }
+
+        .progress-step.active {
+            background: #4eea60;
+            transform: scale(1.1);
+            box-shadow: 0 4px 15px rgba(78, 234, 96, 0.4);
+        }
+
+        .progress-line {
+            width: 100px;
+            height: 2px;
+            background: #000;
+        }
+
+        /* Tela Principal - Frame 6 */
+        .home-screen {
+            padding: 0;
+            background: white;
+        }
+
+        .header-banner {
+            width: 100%;
+            height: 100px;
+            background: #931621;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            font-weight: 600;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: white;
+        }
+
+        .profile-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 30px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .profile-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        .profile-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: #616060;
+        }
+
+        .doctors-section {
+            padding: 20px;
+            overflow-y: auto;
+            max-height: calc(100vh - 300px);
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #931621;
+        }
+
+        .doctor-card {
+            background: white;
+            border-radius: 42px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            transition: all 0.3s;
+        }
+
+        .doctor-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .doctor-avatar-wrapper {
+            width: 181px;
+            height: 258px;
+            border-radius: 25px;
+            background: linear-gradient(135deg, #ff999b 0%, #ffb3b4 100%);
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .doctor-info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .doctor-name {
+            font-size: 18px;
+            font-weight: 600;
+            color: #000;
+        }
+
+        .doctor-specialty {
+            font-size: 16px;
+            color: #666;
+        }
+
+        .btn-schedule {
+            background: #80ded9;
+            border: none;
+            padding: 14px 28px;
+            border-radius: 20px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 10px;
+            align-self: flex-start;
+        }
+
+        .btn-schedule:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(128, 222, 217, 0.4);
+        }
+
+        /* Tela de Calendário - Frame 9 */
+        .calendar-screen {
+            padding: 20px;
+            padding-bottom: 100px;
+        }
+
+        .calendar-container {
+            background: white;
+            border-radius: 20px;
+            padding: 25px 20px;
+            margin: 20px 0;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .calendar-header {
+            font-size: 20px;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 25px;
+            color: #333;
+        }
+
+        .calendar-weekdays {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+
+        .calendar-weekday {
+            text-align: center;
+            font-weight: 600;
+            font-size: 14px;
+            color: #666;
+            padding: 8px 0;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 8px;
+        }
+
+        .calendar-day {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 400;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: #f5f5f5;
+        }
+
+        .calendar-day:hover {
+            background: #e0e0e0;
+            transform: scale(1.05);
+        }
+
+        .calendar-day.selected {
+            background: #326771;
+            color: white;
+            font-weight: 600;
+            transform: scale(1.1);
+        }
+
+        .time-slots {
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            margin-top: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .time-slots h3 {
+            margin-bottom: 15px;
+            font-size: 18px;
+            color: #333;
+        }
+
+        .time-slot {
+            padding: 14px 20px;
+            margin: 10px 0;
+            background: #f5f5f5;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .time-slot:hover {
+            background: #80ded9;
+            transform: translateX(5px);
+        }
+
+        .time-slot.selected {
+            background: #80ded9;
+            color: #000;
+        }
+
+        /* Tela de Agenda - Frame 15 */
+        .agenda-screen {
+            padding: 20px;
+            padding-bottom: 100px;
+        }
+
+        .agenda-container {
+            background: white;
+            border-radius: 20px;
+            padding: 25px 20px;
+            margin: 20px 0;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .appointments-list {
+            margin-top: 20px;
+        }
+
+        .appointment-card {
+            background: #d9d9d9;
+            border-radius: 20px;
+            padding: 18px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: all 0.3s;
+        }
+
+        .appointment-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        .appointment-time {
+            background: white;
+            padding: 10px 16px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 16px;
+            min-width: 60px;
+            text-align: center;
+        }
+
+        .appointment-avatar {
+            width: 110px;
+            height: 111px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff999b 0%, #ffb3b4 100%);
+            box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+            flex-shrink: 0;
+        }
+
+        .appointment-info {
+            flex: 1;
+        }
+
+        .appointment-name {
+            font-size: 15px;
+            font-weight: 400;
+            margin-bottom: 5px;
+        }
+
+        .appointment-specialty {
+            font-size: 15px;
+            color: #666;
+        }
+
+        .menu-btn {
+            background: none;
+            border: none;
+            font-size: 32px;
+            cursor: pointer;
+            color: #a2a2a2;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Tela de Perfil - Frame 10 */
+        .profile-screen {
+            padding: 20px;
+            padding-bottom: 100px;
+        }
+
+        .profile-header {
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .profile-avatar-large {
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            background: #616060;
+            margin: 0 auto 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .profile-form {
+            background: white;
+            border-radius: 20px;
+            padding: 30px 20px;
+        }
+
+        .btn-save {
+            width: 350px;
+            max-width: 100%;
+            padding: 20px;
+            background: #80ded9;
+            border: none;
+            border-radius: 20px;
+            font-size: 24px;
+            font-weight: 900;
+            color: #000;
+            cursor: pointer;
+            margin: 30px auto 0;
+            display: block;
+            transition: all 0.3s;
+        }
+
+        .btn-save:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(128, 222, 217, 0.4);
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #326771;
+            border-radius: 20px 20px 0 0;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-around;
+            width: 440px;
+            max-width: 100%;
+            box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .nav-item {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            color: white;
+            transition: all 0.3s;
+        }
+
+        .nav-item:hover {
+            transform: translateY(-3px);
+        }
+
+        .nav-icon {
+            width: 48px;
+            height: 48px;
+        }
+
+        .nav-label {
+            font-size: 15px;
+            background: white;
+            color: #000;
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-weight: 900;
+        }
+
+        /* Scrollbar personalizada */
+        .screen::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .screen::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        .screen::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 10px;
+        }
+
+        .screen::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+        /* Horizontal scroll para agenda detalhada - Frame 7 */
+        .day-selector {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding: 20px;
+            background: #cacaca;
+            border-radius: 20px;
+            margin: 20px;
+        }
+
+        .day-item {
+            min-width: 60px;
+            text-align: center;
+            padding: 10px;
+            background: white;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .day-item.selected {
+            background: #326771;
+            color: white;
+        }
+
+        .day-number {
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .day-name {
+            font-size: 14px;
+            font-weight: 700;
+        }
+        a{
+            text-decoration: none;
+            justify-content:center;
+            display: flex;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="phone-container">
+        <!-- Tela de Login (Frame 2) -->
+        <div class="screen login-screen active" id="login-screen">
+            <div class="brain-logo">
+                <svg viewBox="0 0 200 200" fill="none" stroke="#326771" stroke-width="20">
+                    <path d="M50 60 C50 30, 80 20, 100 40 C120 20, 150 30, 150 60 C150 90, 120 100, 100 120 C80 100, 50 90, 50 60 Z"/>
+                    <path d="M60 80 C60 70, 70 65, 75 70"/>
+                    <path d="M140 80 C140 70, 130 65, 125 70"/>
+                    <path d="M50 100 L150 100"/>
+                    <circle cx="75" cy="75" r="3" fill="#326771"/>
+                    <circle cx="125" cy="75" r="3" fill="#326771"/>
+                </svg>
+            </div>
+            <div class="login-card">
+                <a class="login-title">MindCare</a>
+                <h1 class="login-title">Entre na sua conta</h1>
+                <p class="login-subtitle">Bem-vindo de volta</p>
+                
+                <div class="input-group">
+                    <input type="email" class="input-field" placeholder="Email" id="login-email">
+                </div>
+                <div class="input-group">
+                    <input type="password" class="input-field" placeholder="Senha" id="login-password">
+                </div>
+                
+                <label class="remember-me">
+                    <input type="checkbox" id="remember">
+                    <span>Lembrar de mim</span>
+                </label>
+                
+                <button class="btn-primary" onclick="goToHome()">Próximo</button>
+                
+                <p class="link-text">
+                    Não possui uma conta? <a href="#" onclick="goToRegister()">Cadastre-se</a>
+                </p>
+            </div>
+        </div>
+
+        <!-- Tela de Registro Passo 1 (Frame 3) -->
+        <div class="screen register-screen" id="register-screen">
+            <div class="progress-indicator">
+                <div class="progress-step active">1</div>
+                <div class="progress-line"></div>
+                <div class="progress-step">2</div>
+                <div class="progress-line"></div>
+                <div class="progress-step">3</div>
+            </div>
+            
+            <div class="login-card">
+                <h1 class="login-title">Login</h1>
+                <p class="login-subtitle">Entre na sua conta</p>
+                
+                <div class="input-group">
+                    <input type="email" class="input-field" placeholder="Email">
+                </div>
+                <div class="input-group">
+                    <input type="password" class="input-field" placeholder="Senha">
+                </div>
+                
+                <button class="btn-primary" onclick="goToRegister2()">Próximo</button>
+                
+                <p class="link-text">
+                    Já possui uma conta? <a href="#" onclick="goToLogin()">Entre na sua conta</a>
+                </p>
+            </div>
+        </div>
+
+        <!-- Tela de Registro Passo 2 (Frame 11) -->
+        <div class="screen register-screen" id="register-screen-2">
+            <div class="progress-indicator">
+                <div class="progress-step active">1</div>
+                <div class="progress-line"></div>
+                <div class="progress-step active">2</div>
+                <div class="progress-line"></div>
+                <div class="progress-step">3</div>
+            </div>
+            
+            <div class="login-card">
+                <h1 class="login-title">Crie uma conta</h1>
+                <p class="login-subtitle">Precisamos de apenas algumas informações para continuar</p>
+                
+                <div class="input-group">
+                    <input type="text" class="input-field" placeholder="Nome completo">
+                </div>
+                <div class="input-group">
+                    <input type="tel" class="input-field" placeholder="Telefone">
+                </div>
+                <div class="input-group">
+                    <input type="date" class="input-field" placeholder="Data de nascimento">
+                </div>
+                
+                <button class="btn-primary" onclick="goToRegister3()">Próximo</button>
+                
+                <p class="link-text">
+                    Já possui uma conta? <a href="#" onclick="goToLogin()">Entre na sua conta</a>
+                </p>
+            </div>
+        </div>
+
+        <!-- Tela de Registro Passo 3 (Frame 12) -->
+        <div class="screen register-screen" id="register-screen-3">
+            <div class="progress-indicator">
+                <div class="progress-step active">1</div>
+                <div class="progress-line"></div>
+                <div class="progress-step active">2</div>
+                <div class="progress-line"></div>
+                <div class="progress-step active">3</div>
+            </div>
+            
+            <div class="login-card">
+                <h1 class="login-title">Segurança</h1>
+                <p class="login-subtitle">Para manter suas informações seguras, crie uma senha!</p>
+                
+                <div class="input-group">
+                    <input type="password" class="input-field" placeholder="Senha">
+                </div>
+                <div class="input-group">
+                    <input type="password" class="input-field" placeholder="Confirmar senha">
+                </div>
+                
+                <button class="btn-primary" onclick="goToHome()">Próximo</button>
+                
+                <p class="link-text">
+                    Já possui uma conta? <a href="#" onclick="goToLogin()">Entre na sua conta</a>
+                </p>
+            </div>
+        </div>
+
+        <!-- Tela Principal (Frame 6) -->
+        <div class="screen home-screen" id="home-screen">
+            <div class="header-banner">
+                <span>🧠 MindCare</span>
+            </div>
+            
+            <div class="header">
+                <button class="profile-btn" onclick="goToProfile()">
+                    <div class="profile-avatar"></div>
+                    <span>Perfil</span>
+                </button>
+            </div>
+            
+            <div class="doctors-section">
+                <h2 class="section-title">Profissionais Disponíveis</h2>
+                
+                <div class="doctor-card">
+                    <div class="doctor-avatar-wrapper">
+                        <svg width="120" height="140" viewBox="0 0 120 140" fill="none">
+                            <ellipse cx="60" cy="40" rx="35" ry="40" fill="#fff"/>
+                            <rect x="30" y="75" width="60" height="65" rx="30" fill="#fff"/>
+                        </svg>
+                    </div>
+                    <div class="doctor-info">
+                        <div class="doctor-name">Dr. João Silva</div>
+                        <div class="doctor-specialty">Psicólogo Clínico</div>
+                        <button class="btn-schedule" onclick="goToCalendar()">Agendar consulta</button>
+                    </div>
+                </div>
+
+                <div class="doctor-card">
+                    <div class="doctor-avatar-wrapper">
+                        <svg width="120" height="140" viewBox="0 0 120 140" fill="none">
+                            <ellipse cx="60" cy="40" rx="35" ry="40" fill="#fff"/>
+                            <rect x="30" y="75" width="60" height="65" rx="30" fill="#fff"/>
+                        </svg>
+                    </div>
+                    <div class="doctor-info">
+                        <div class="doctor-name">Dra. Maria Santos</div>
+                        <div class="doctor-specialty">Psiquiatra</div>
+                        <button class="btn-schedule" onclick="goToCalendar()">Agendar consulta</button>
+                    </div>
+                </div>
+
+                <div class="doctor-card">
+                    <div class="doctor-avatar-wrapper">
+                        <svg width="120" height="140" viewBox="0 0 120 140" fill="none">
+                            <ellipse cx="60" cy="40" rx="35" ry="40" fill="#fff"/>
+                            <rect x="30" y="75" width="60" height="65" rx="30" fill="#fff"/>
+                        </svg>
+                    </div>
+                    <div class="doctor-info">
+                        <div class="doctor-name">Dr. Pedro Costa</div>
+                        <div class="doctor-specialty">Terapeuta</div>
+                        <button class="btn-schedule" onclick="goToCalendar()">Agendar consulta</button>
+                    </div>
+                </div>
+
+                <div class="doctor-card">
+                    <div class="doctor-avatar-wrapper">
+                        <svg width="120" height="140" viewBox="0 0 120 140" fill="none">
+                            <ellipse cx="60" cy="40" rx="35" ry="40" fill="#fff"/>
+                            <rect x="30" y="75" width="60" height="65" rx="30" fill="#fff"/>
+                        </svg>
+                    </div>
+                    <div class="doctor-info">
+                        <div class="doctor-name">Dra. Ana Oliveira</div>
+                        <div class="doctor-specialty">Psicóloga</div>
+                        <button class="btn-schedule" onclick="goToCalendar()">Agendar consulta</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bottom-nav">
+                <button class="nav-item" onclick="goToHome()">
+                    <svg class="nav-icon" viewBox="0 0 48 48" fill="none" stroke="white" stroke-width="2">
+                        <path d="M8 18 L24 6 L40 18 V40 H8 Z"/>
+                    </svg>
+                </button>
+                <button class="nav-item" onclick="goToCalendar()">
+                    <svg class="nav-icon" viewBox="0 0 48 48" fill="none" stroke="white" stroke-width="2">
+                        <rect x="8" y="10" width="32" height="30" rx="2"/>
+                        <line x1="8" y1="18" x2="40" y2="18"/>
+                    </svg>
+                    <span class="nav-label">Calendario</span>
+                </button>
+                <button class="nav-item" onclick="goToAgenda()">
+                    <svg class="nav-icon" viewBox="0 0 48 48" fill="none" stroke="white" stroke-width="2">
+                        <rect x="8" y="10" width="32" height="30" rx="2"/>
+                        <line x1="16" y1="20" x2="32" y2="20"/>
+                        <line x1="16" y1="26" x2="32" y2="26"/>
+                    </svg>
+                </button>
+                <button class="nav-item" onclick="goToProfile()">
+                    <svg class="nav-icon" viewBox="0 0 60 60" fill="none" stroke="white" stroke-width="4">
+                        <path d="M15 25 C15 15, 25 10, 30 20 C35 10, 45 15, 45 25"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Tela de Calendário (Frame 9) -->
+        <div class="screen calendar-screen" id="calendar-screen">
+            <div class="header">
+                <button class="profile-btn" onclick="goToProfile()">
+                    <div class="profile-avatar"></div>
+                    <span>Perfil</span>
+                </button>
+            </div>
+
+            <div class="calendar-container">
+                <div class="calendar-header">Novembro 2025</div>
+                <div class="calendar-weekdays">
+                    <div class="calendar-weekday">D</div>
+                    <div class="calendar-weekday">S</div>
+                    <div class="calendar-weekday">T</div>
+                    <div class="calendar-weekday">Q</div>
+                    <div class="calendar-weekday">Q</div>
+                    <div class="calendar-weekday">S</div>
+                    <div class="calendar-weekday">S</div>
+                </div>
+                <div class="calendar-grid" id="calendar-grid"></div>
+            </div>
+
+            <div class="time-slots">
+                <h3>Horários disponíveis</h3>
+                <div class="time-slot" onclick="selectTime(this)">08:00 - 09:00</div>
+                <div class="time-slot" onclick="selectTime(this)">10:00 - 11:00</div>
+                <div class="time-slot" onclick="selectTime(this)">14:00 - 15:00</div>
+                <div class="time-slot" onclick="selectTime(this)">16:00 - 17:00</div>
+            </div>
+
+            <button class="btn-primary" style="margin: 20px; width: calc(100% - 40px);" onclick="confirmAppointment()">Próximo</button>
+
+            <div class="bottom-nav">
+                <button class="nav-item" onclick="goToHome()">
+                    <svg class="nav-icon" viewBox="0 0 48 48" fill="none" stroke="white" stroke-width="2">
+                        <path d="M8 18 L24 6 L40 18 V40 H8 Z"/>
+                    </svg>
+                </button>
+                <button class="nav-item" onclick="goToCalendar()">
+                    <svg class="nav-icon" viewBox="0 0 48 48" fill="none" stroke="white" stroke-width="2">
+                        <rect x="8" y="10" width="32" height="30" rx="2"/>
+                        <line x1="8" y1="18" x2="40" y2="18"/>
+                    </svg>
+                    <span class="nav-label">Calendario</span>
+                </button>
+                <button class="nav-item" onclick="goToAgenda()">
+                    <svg class="nav-icon" viewBox="0 0 48 48" fill="none" stroke="white" stroke-width="2">
+                        <rect x="8" y="10" width="32" height="30" rx="2"/>
+                        <line x1="16" y1="20" x2="32" y2="20"/>
+                        <line x1="16" y1="26" x2="32" y2="26"/>
+                    </svg>
+                </button>
+                <button class="nav-item" onclick="goToProfile()">
+                    <svg class="nav-icon" viewBox="0 0 60 60" fill="none" stroke="white" stroke-width="4">
+                        <path d="M15 25 C15 15, 25 10, 30 20 C35 10, 45 15, 45 25"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Tela de Agenda (Frame 15) -->
+        <div class="screen agenda-screen" id="agenda-screen">
+            <div class="header">
+                <button class="profile-btn" onclick="goToProfile()">
+                    <div class="profile-avatar"></div>
+                    <span>Perfil</span>
+                </button>
+            </div>
+
+            <div class="agenda-container">
+                <div class="calendar-header">Suas Consultas Agendadas</div>
+            </div>
+
+            <div class="appointments-list">
+                <div class="appointment-card">
+                    <div class="appointment-time">8:00</div>
+                    <div class="appointment-avatar"></div>
+                    <div class="appointment-info">
+                        <div class="appointment-name">Dr. João Silva</div>
+                        <div class="appointment-specialty">Psicólogo Clínico</div>
+                    </div>
+                    <button class="menu-btn">⋯</button>
+                </div>
+
+                <div class="appointment-card">
+                    <div class="appointment-time">10:00</div>
+                    <div class="appointment-avatar"></div>
+                    <div class="appointment-info">
+                        <div class="appointment-name">Dra. Maria Santos</div>
+                        <div class="appointment-specialty">Psiquiatra</div>
+                    </div>
+                    <button class="menu-btn">⋯</button>
+                </div>
+            </div>
+
+            <div class="bottom-nav">
+                <button class="nav-item" onclick="goToHome()">
+                    <svg class="nav-icon" viewBox="0 0 48 48" fill="none" stroke="white" stroke-width="2">
+                        <path d="M8 18 L24 6 L40 18 V40 H8 Z"/>
+                    </svg>
+                </button>
+                <button class="nav-item" onclick="goToCalendar()">
+                    <svg class="nav-icon" viewBox="0 0 48 48" fill="none" stroke="white" stroke-width="2">
+                        <rect x="8" y="10" width="32" height="30" rx="2"/>
+                        <line x1="8" y1="18" x2="40" y2="18"/>
+                    </svg>
+                </button>
+                <button class="nav-item" onclick="goToAgenda()">
+                    <svg class="nav-icon" viewBox="0 0 48 48" fill="none" stroke="white" stroke-width="2">
+                        <rect x="8" y="10" width="32" height="30" rx="2"/>
+                        <line x1="16" y1="20" x2="32" y2="20"/>
+                        <line x1="16" y1="26" x2="32" y2="26"/>
+                    </svg>
+                    <span class="nav-label">Agenda</span>
+                </button>
+                <button class="nav-item" onclick="goToProfile()">
+                    <svg class="nav-icon" viewBox="0 0 60 60" fill="none" stroke="white" stroke-width="4">
+                        <path d="M15 25 C15 15, 25 10, 30 20 C35 10, 45 15, 45 25"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Tela de Perfil (Frame 10) -->
+        <div class="screen profile-screen" id="profile-screen">
+            <div class="profile-header">
+                <div class="profile-avatar-large"></div>
+            </div>
+
+            <div class="profile-form">
+                <div class="input-group">
+                    <input type="text" class="input-field" placeholder="Nome completo" value="João da Silva">
+                </div>
+                <div class="input-group">
+                    <input type="email" class="input-field" placeholder="Email" value="joao@email.com">
+                </div>
+                <div class="input-group">
+                    <input type="tel" class="input-field" placeholder="Telefone" value="(11) 99999-9999">
+                </div>
+                <div class="input-group">
+                    <input type="date" class="input-field" placeholder="Data de nascimento">
+                </div>
+                <div class="input-group">
+                    <input type="text" class="input-field" placeholder="Endereço">
+                </div>
+
+                <button class="btn-save" onclick="saveProfile()">Salvar</button>
+            </div>
+
+            <div class="bottom-nav">
+                <button class="nav-item" onclick="goToHome()">
+                    <svg class="nav-icon" viewBox="0 0 48 48" fill="none" stroke="white" stroke-width="2">
+                        <path d="M8 18 L24 6 L40 18 V40 H8 Z"/>
+                    </svg>
+                </button>
+                <button class="nav-item" onclick="goToCalendar()">
+                    <svg class="nav-icon" viewBox="0 0 48 48" fill="none" stroke="white" stroke-width="2">
+                        <rect x="8" y="10" width="32" height="30" rx="2"/>
+                        <line x1="8" y1="18" x2="40" y2="18"/>
+                    </svg>
+                </button>
+                <button class="nav-item" onclick="goToAgenda()">
+                    <svg class="nav-icon" viewBox="0 0 48 48" fill="none" stroke="white" stroke-width="2">
+                        <rect x="8" y="10" width="32" height="30" rx="2"/>
+                        <line x1="16" y1="20" x2="32" y2="20"/>
+                        <line x1="16" y1="26" x2="32" y2="26"/>
+                    </svg>
+                </button>
+                <button class="nav-item" onclick="goToProfile()">
+                    <svg class="nav-icon" viewBox="0 0 60 60" fill="none" stroke="white" stroke-width="4">
+                        <path d="M15 25 C15 15, 25 10, 30 20 C35 10, 45 15, 45 25"/>
+                    </svg>
+                    <span class="nav-label">Perfil</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showScreen(screenId) {
+            document.querySelectorAll('.screen').forEach(screen => {
+                screen.classList.remove('active');
+            });
+            document.getElementById(screenId).classList.add('active');
+            document.getElementById(screenId).scrollTop = 0;
+        }
+
+        function goToLogin() {
+            showScreen('login-screen');
+        }
+
+        function goToRegister() {
+            showScreen('register-screen');
+        }
+
+        function goToRegister2() {
+            showScreen('register-screen-2');
+        }
+
+        function goToRegister3() {
+            showScreen('register-screen-3');
+        }
+
+        function goToHome() {
+            showScreen('home-screen');
+        }
+
+        function goToCalendar() {
+            showScreen('calendar-screen');
+            generateCalendar();
+        }
+
+        function goToAgenda() {
+            showScreen('agenda-screen');
+        }
+
+        function goToProfile() {
+            showScreen('profile-screen');
+        }
+
+        function saveProfile() {
+            alert('Perfil salvo com sucesso! ✓');
+        }
+
+        function confirmAppointment() {
+            alert('Consulta agendada com sucesso! ✓');
+            goToAgenda();
+        }
+
+        function selectTime(element) {
+            document.querySelectorAll('.time-slot').forEach(slot => {
+                slot.classList.remove('selected');
+            });
+            element.classList.add('selected');
+        }
+
+        function generateCalendar() {
+            const grid = document.getElementById('calendar-grid');
+            grid.innerHTML = '';
+            
+            // Dias do mês (Novembro tem 30 dias, começando em uma sexta)
+            // Adicionar dias vazios do mês anterior
+            for (let i = 0; i < 5; i++) {
+                const emptyDay = document.createElement('div');
+                emptyDay.className = 'calendar-day';
+                emptyDay.style.opacity = '0.3';
+                emptyDay.textContent = 27 + i;
+                grid.appendChild(emptyDay);
+            }
+            
+            // Dias de novembro
+            for (let i = 1; i <= 30; i++) {
+                const dayCell = document.createElement('div');
+                dayCell.className = 'calendar-day';
+                dayCell.textContent = i;
+                
+                // Dia 9 selecionado por padrão
+                if (i === 9) {
+                    dayCell.classList.add('selected');
+                }
+                
+                dayCell.onclick = function() {
+                    document.querySelectorAll('.calendar-day').forEach(d => {
+                        if (!d.style.opacity) {
+                            d.classList.remove('selected');
+                        }
+                    });
+                    if (!this.style.opacity) {
+                        this.classList.add('selected');
+                    }
+                };
+                grid.appendChild(dayCell);
+            }
+            
+            // Dias vazios do próximo mês
+            for (let i = 1; i <= 7; i++) {
+                const emptyDay = document.createElement('div');
+                emptyDay.className = 'calendar-day';
+                emptyDay.style.opacity = '0.3';
+                emptyDay.textContent = i;
+                grid.appendChild(emptyDay);
+            }
+        }
+
+        // Inicializar calendário
+        generateCalendar();
+    </script>
+</body>
+</html>
